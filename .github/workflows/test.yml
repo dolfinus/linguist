@@ -26,19 +26,19 @@ jobs:
   test:
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     runs-on: ubuntu-18.04
-<<<<<<< HEAD
-=======
     needs: check_duplicate_runs
     if: ${{ needs.check_duplicate_runs.outputs.should_skip != 'true' }}
->>>>>>> 95143b0 (Skip duplicates Github actions run)
 
     strategy:
       matrix:
-        include:
-          - elixir: '1.11'
-            otp: '23'
-          - elixir: '1.10'
-            otp: '22'
+        elixir:
+        - "1.9"
+        - "1.10"
+        - "1.11"
+        otp:
+        - "21.0"
+        - "22.0.2"
+        - "23.0"
 
     steps:
     - name: Checkout
@@ -85,3 +85,9 @@ jobs:
 
     - name: Run unit tests
       run: mix test
+
+    - name: Run unit tests with persistent_term backend
+      run: mix test
+      if: matrix.otp != '21.0'
+      env:
+        SCHEMA_PROVIDER: persistent_term

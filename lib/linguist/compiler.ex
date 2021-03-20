@@ -47,7 +47,7 @@ defmodule Linguist.Compiler do
         _ -> acc
       end
     end)
-    cldr = cldr || Application.fetch_env!(:linguist, :cldr)
+    cldr = cldr || Application.get_env(:linguist, :cldr, Linguist.Cldr)
 
     cardinal = "#{cldr}.Number.Cardinal" |> String.to_atom()
 
@@ -64,12 +64,10 @@ defmodule Linguist.Compiler do
       end
 
       def t(locale, path, bindings) do
-        pluralization_key = Application.fetch_env!(:linguist, :pluralization_key)
-
-        if Keyword.has_key?(bindings, pluralization_key) do
+        if Keyword.has_key?(bindings, @pluralization_key) do
           plural_atom =
             bindings
-            |> Keyword.get(pluralization_key)
+            |> Keyword.get(@pluralization_key)
             |> unquote(cardinal).plural_rule(locale)
 
           case plural_atom do

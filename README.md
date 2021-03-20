@@ -104,3 +104,12 @@ end
 ```elixir
 Linguist.MemorizedVocabulary.cldr(MyApp.Cldr)
 ```
+will cause the system to pluralize based on the `count` parameter passed to the `t` function.
+
+### `:persistent_term` support
+You can use `:persistent_term` backend instead of `:ets` in `Linguist.MemoizedVocabulary` by setting up:
+
+```elixir
+config :linguist, vocabulary_backend: :persistent_term
+```
+**This is only available on OTP >= 21.2**

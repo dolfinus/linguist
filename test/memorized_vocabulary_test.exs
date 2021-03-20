@@ -80,8 +80,7 @@ defmodule MemorizedVocabularyTest do
   end
 
   test "t! pluralizes unknown locale with custom Cldr backend" do
-    :ets.delete(:translations_registry, "memorized_vocabulary.cldr")
-
+    Linguist.MemorizedVocabulary.remove_from_backend("memorized_vocabulary.cldr")
     Linguist.MemorizedVocabulary.cldr(Ru.Cldr)
 
     assert Linguist.MemorizedVocabulary.t!("ru", "countable", count: 1) == "1 элемент"
@@ -94,12 +93,12 @@ defmodule MemorizedVocabularyTest do
     assert Linguist.MemorizedVocabulary.t!("ru", "countable", count: 8) == "8 элементов"
     assert Linguist.MemorizedVocabulary.t!("ru", "countable", count: 9) == "9 элементов"
     assert Linguist.MemorizedVocabulary.t!("ru", "countable", count: 10) == "10 элементов"
-    :ets.delete(:translations_registry, "memorized_vocabulary.cldr")
+
+    Linguist.MemorizedVocabulary.remove_from_backend("memorized_vocabulary.cldr")
   end
 
   test "t pluralizes unknown locale with custom Cldr backend" do
-    :ets.delete(:translations_registry, "memorized_vocabulary.cldr")
-
+    Linguist.MemorizedVocabulary.remove_from_backend("memorized_vocabulary.cldr")
     Linguist.MemorizedVocabulary.cldr(Ru.Cldr)
 
     assert Linguist.MemorizedVocabulary.t("ru", "countable", count: 1) == {:ok, "1 элемент"}
@@ -112,6 +111,7 @@ defmodule MemorizedVocabularyTest do
     assert Linguist.MemorizedVocabulary.t("ru", "countable", count: 8) == {:ok, "8 элементов"}
     assert Linguist.MemorizedVocabulary.t("ru", "countable", count: 9) == {:ok, "9 элементов"}
     assert Linguist.MemorizedVocabulary.t("ru", "countable", count: 10) == {:ok, "10 элементов"}
-    :ets.delete(:translations_registry, "memorized_vocabulary.cldr")
+
+    Linguist.MemorizedVocabulary.remove_from_backend("memorized_vocabulary.cldr")
   end
 end
