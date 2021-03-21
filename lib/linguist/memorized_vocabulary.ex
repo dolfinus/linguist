@@ -191,6 +191,7 @@ defmodule Linguist.MemorizedVocabulary do
   locale "es", Path.join([__DIR__, "es.yml"])
   """
   def locale(name, source) do
+    name = normalize_locale(name)
     loaded_source = Linguist.MemorizedVocabulary._load_yaml_file(source)
     update_translations(name, loaded_source)
     add_locale(name)
@@ -265,6 +266,8 @@ defmodule Linguist.MemorizedVocabulary do
   # splits the string on the `-` downcases the first part and upcases the second part.
   # With a locale that contains no `-` the string is downcased, and if the locale contains more
   # than one `-`, a LocaleError is raised.
+  def normalize_locale(locale) when is_atom(locale), do: normalize_locale(to_string(locale))
+
   def normalize_locale(locale) do
     if String.match?(locale, ~r/-/) do
       case String.split(locale, "-") do
